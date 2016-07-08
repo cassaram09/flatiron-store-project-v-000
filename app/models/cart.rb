@@ -28,7 +28,8 @@ class Cart < ActiveRecord::Base
       line_item.item.inventory -= line_item.quantity
       line_item.item.save
     end
-    line_items.clear
+    status = "submitted"
+    save
   end
 
 end

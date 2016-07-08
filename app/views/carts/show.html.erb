@@ -12,6 +12,6 @@
 
 <p>Order total: <strong><%= number_to_currency(@cart.total) %></strong> </p>
 
-<% if @cart.items.length > 0 %>
+<% if @cart.status != "submitted" %>
   <%= button_to 'Checkout', checkout_path %>
 <% end %>
