@@ -3,6 +3,7 @@ class Cart < ActiveRecord::Base
   has_many :line_items
   belongs_to :user
   has_many :orders
+  has_many :users
 
   def total
     total = 0
@@ -17,10 +18,18 @@ class Cart < ActiveRecord::Base
     if lineItem
       lineItem.quantity += 1
     else
-      self.line_items.create(item_id: item_id)
-
+      lineItem = self.line_items.build(item_id: item_id)
     end
     return lineItem
+  end
+
+  def checkout
+    line_items.each do |line_item|
+      line_item.item.inventory -= line_item.quantity
+      line_item.item.save
+    end
+    status = "submitted"
+    save
   end
 
 end
